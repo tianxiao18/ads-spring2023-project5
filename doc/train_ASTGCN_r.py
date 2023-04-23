@@ -9,10 +9,10 @@ from time import time
 import shutil
 import argparse
 import configparser
-from model.ASTGCN_r import make_model
-from lib.utils import load_graphdata_channel1, get_adjacency_matrix, compute_val_loss_mstgcn, predict_and_save_results_mstgcn
+from ASTGCN_r import make_model
+from utils import load_graphdata_channel1, get_adjacency_matrix, compute_val_loss_mstgcn, predict_and_save_results_mstgcn
 from tensorboardX import SummaryWriter
-from lib.metrics import masked_mape_np,  masked_mae,masked_mse,masked_rmse
+from metrics import masked_mape_np,  masked_mae,masked_mse,masked_rmse
 import pandas as pd
 
 parser = argparse.ArgumentParser()
