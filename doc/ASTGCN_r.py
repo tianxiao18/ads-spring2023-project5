@@ -10,11 +10,11 @@ class Spatial_Attention_layer(nn.Module):
     '''
     def __init__(self, DEVICE, in_channels, num_of_vertices, num_of_timesteps):
         super(Spatial_Attention_layer, self).__init__()
-        self.W1 = nn.Parameter(torch.FloatTensor(num_of_timesteps).to(DEVICE))
-        self.W2 = nn.Parameter(torch.FloatTensor(in_channels, num_of_timesteps).to(DEVICE))
-        self.W3 = nn.Parameter(torch.FloatTensor(in_channels).to(DEVICE))
-        self.bs = nn.Parameter(torch.FloatTensor(1, num_of_vertices, num_of_vertices).to(DEVICE))
-        self.Vs = nn.Parameter(torch.FloatTensor(num_of_vertices, num_of_vertices).to(DEVICE))
+        self.W1 = nn.Parameter(torch.FloatTensor(num_of_timesteps))
+        self.W2 = nn.Parameter(torch.FloatTensor(in_channels, num_of_timesteps))
+        self.W3 = nn.Parameter(torch.FloatTensor(in_channels))
+        self.bs = nn.Parameter(torch.FloatTensor(1, num_of_vertices, num_of_vertices))
+        self.Vs = nn.Parameter(torch.FloatTensor(num_of_vertices, num_of_vertices))
 
 
     def forward(self, x):
@@ -92,11 +92,11 @@ class cheb_conv_withSAt(nn.Module):
 class Temporal_Attention_layer(nn.Module):
     def __init__(self, DEVICE, in_channels, num_of_vertices, num_of_timesteps):
         super(Temporal_Attention_layer, self).__init__()
-        self.U1 = nn.Parameter(torch.FloatTensor(num_of_vertices).to(DEVICE))
-        self.U2 = nn.Parameter(torch.FloatTensor(in_channels, num_of_vertices).to(DEVICE))
-        self.U3 = nn.Parameter(torch.FloatTensor(in_channels).to(DEVICE))
-        self.be = nn.Parameter(torch.FloatTensor(1, num_of_timesteps, num_of_timesteps).to(DEVICE))
-        self.Ve = nn.Parameter(torch.FloatTensor(num_of_timesteps, num_of_timesteps).to(DEVICE))
+        self.U1 = nn.Parameter(torch.FloatTensor(num_of_vertices))
+        self.U2 = nn.Parameter(torch.FloatTensor(in_channels, num_of_vertices))
+        self.U3 = nn.Parameter(torch.FloatTensor(in_channels))
+        self.be = nn.Parameter(torch.FloatTensor(1, num_of_timesteps, num_of_timesteps))
+        self.Ve = nn.Parameter(torch.FloatTensor(num_of_timesteps, num_of_timesteps))
 
     def forward(self, x):
         '''
@@ -242,7 +242,7 @@ class ASTGCN_submodule(nn.Module):
         
         self.DEVICE = DEVICE
 
-        self.to(DEVICE)
+        #self.to(DEVICE)
 
         
     def forward(self, x):
@@ -277,7 +277,7 @@ def make_model(DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filter,
     :return:
     '''
     L_tilde = scaled_Laplacian(adj_mx)
-    cheb_polynomials = [torch.from_numpy(i).type(torch.FloatTensor).to(DEVICE) for i in cheb_polynomial(L_tilde, K)]
+    cheb_polynomials = [torch.from_numpy(i).type(torch.FloatTensor) for i in cheb_polynomial(L_tilde, K)]
     model = ASTGCN_submodule(DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filter, time_strides, cheb_polynomials, num_for_predict, len_input, num_of_vertices)
 
     for p in model.parameters():
