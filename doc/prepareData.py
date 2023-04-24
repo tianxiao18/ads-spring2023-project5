@@ -49,7 +49,7 @@ def get_sample_indices(data_sequence, num_of_weeks, num_of_days, num_of_hours,
     data_sequence: np.ndarray
                    shape is (sequence_length, num_of_vertices, num_of_features)
     num_of_weeks, num_of_days, num_of_hours: int
-    label_start_idx: int, the first index of predicting target, 预测值开始的那个点
+    label_start_idx: int, the first index of predicting target
     num_for_predict: int,
                      the number of points will be predicted for each sample
     points_per_hour: int, default 12, number of points per hour
@@ -161,8 +161,7 @@ def read_and_generate_dataset(graph_signal_matrix_filename,
         time_sample = np.expand_dims(np.array([idx]), axis=0)  # (1,1)
         sample.append(time_sample)
 
-        all_samples.append(
-            sample)  # sampe：[(week_sample),(day_sample),(hour_sample),target,time_sample] = [(1,N,F,Tw),(1,N,F,Td),(1,N,F,Th),(1,N,Tpre),(1,1)]
+        all_samples.append(sample)
 
     # split_line1 = int(len(all_samples) * 0.6)
     # split_line2 = int(len(all_samples) * 0.8)
